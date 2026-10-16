@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Hub privacy information — Subgentic.ai</title>
+<meta name="description" content="What Coral Hub stores, what it relays, how long it keeps data, and who can see it. Coral Hub is in closed beta.">
+<link rel="canonical" href="https://coralhub.dev/hub-privacy.html">
+<meta property="og:title" content="Coral Hub privacy information — Subgentic.ai">
+<meta property="og:description" content="What Coral Hub stores, what it relays, how long it keeps data, and who can see it. Coral Hub is in closed beta.">
+<meta property="og:url" content="https://coralhub.dev/hub-privacy.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Coral Hub privacy information — Subgentic.ai">
+<meta name="twitter:description" content="What Coral Hub stores, what it relays, how long it keeps data, and who can see it. Coral Hub is in closed beta.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-primary: #0a0e14;
+    --bg-surface: #0d1117;
+    --bg-card: #161b22;
+    --bg-card-hover: #1c2129;
+    --border: #21262d;
+    --border-light: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --accent-glow: rgba(88, 166, 255, 0.15);
+    --success: #3fb950;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Nav ──────────────────────────────────────────── */
+nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10, 14, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+}
+
+.nav-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+}
+
+.nav-logo {
+    font-size: 20px; font-weight: 800; color: var(--text-primary);
+    display: flex; align-items: center; gap: 8px;
+}
+
+.nav-logo svg { width: 28px; height: 28px; }
+
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+.nav-links a:hover { color: var(--text-primary); text-decoration: none; }
+
+.nav-cta {
+    background: var(--accent); color: #fff !important;
+    padding: 6px 16px; border-radius: 6px; font-weight: 600; font-size: 13px;
+    transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--accent-dim); text-decoration: none; }
+
+/* ── Sections ─────────────────────────────────────── */
+section { padding: 100px 24px; }
+.container { max-width: 1120px; margin: 0 auto; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+    padding-top: 160px; padding-bottom: 40px;
+    text-align: center;
+    position: relative; overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    padding: 5px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; color: var(--accent);
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800; line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.hero h1 .accent { color: var(--accent); }
+
+.hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--text-secondary);
+    max-width: 480px; margin: 0 auto 36px;
+    line-height: 1.5;
+}
+
+/* Social proof bar */
+.social-proof {
+    display: flex; gap: 32px; justify-content: center; align-items: center;
+    flex-wrap: wrap; padding: 20px 24px;
+    font-size: 14px; color: var(--text-muted); font-weight: 500;
+}
+.social-proof a {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-secondary); font-weight: 600;
+}
+.social-proof a:hover { color: var(--text-primary); text-decoration: none; }
+
+.hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border-radius: 8px;
+    font-size: 15px; font-weight: 600; font-family: var(--font-sans);
+    cursor: pointer; border: none; transition: all 0.15s;
+}
+
+.btn-primary {
+    background: var(--accent); color: #fff;
+}
+.btn-primary:hover { background: var(--accent-dim); text-decoration: none; color: #fff; }
+
+.btn-secondary {
+    background: var(--bg-card); color: var(--text-primary);
+    border: 1px solid var(--border-light);
+}
+.btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--text-muted); text-decoration: none; }
+
+.hero-note {
+    margin-top: 16px; font-size: 13px; color: var(--text-muted);
+}
+
+/* ── Hero Video ───────────────────────────────────── */
+.hero-video-section {
+    padding: 0 24px 60px;
+}
+.hero-video-section .container {
+    max-width: 900px;
+}
+.hero-video-embed {
+    position: relative;
+    padding-bottom: 62.5%;
+    height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+.hero-video-embed iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ── Features ─────────────────────────────────────── */
+.features { background: var(--bg-surface); }
+
+.section-label {
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 12px; font-weight: 700; color: var(--accent);
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800; margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.section-sub {
+    font-size: 16px; color: var(--text-secondary);
+    max-width: 560px; margin-bottom: 56px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.feature-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+}
+
+.feature-card.hero-feature {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+    padding: 36px;
+}
+
+.feature-card.hero-feature .feature-icon {
+    width: 56px; height: 56px; margin-bottom: 0;
+}
+
+.feature-card.hero-feature .feature-icon svg { width: 28px; height: 28px; }
+
+.feature-card.hero-feature h3 { font-size: 20px; margin-bottom: 6px; }
+
+.feature-card.hero-feature p { font-size: 15px; }
+
+@media (max-width: 768px) {
+    .feature-card.hero-feature { grid-template-columns: 1fr; }
+    .feature-card.hero-feature .feature-icon { margin-bottom: 12px; }
+}
+
+.feature-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--accent-glow);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+}
+
+.feature-icon svg { width: 20px; height: 20px; color: var(--accent); }
+
+.feature-card h3 {
+    font-size: 16px; font-weight: 700; margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+}
+
+/* ── Chat Demo ────────────────────────────────────── */
+.chat-demo {
+    max-width: 680px;
+    margin: 64px auto 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.chat-demo-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+}
+
+.chat-demo-header .board-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--success);
+}
+
+.chat-demo-header span {
+    font-size: 13px; font-weight: 600; color: var(--text-secondary);
+}
+
+.chat-demo-header .member-count {
+    margin-left: auto; font-size: 12px; color: var(--text-muted); font-weight: 400;
+}
+
+.chat-messages {
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 16px;
+    min-height: 320px;
+    max-height: 520px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.chat-bubble {
+    max-width: 92%;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: bubbleIn 0.4s ease-out forwards;
+}
+
+.chat-bubble .bubble-name {
+    font-size: 12px; font-weight: 700; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+}
+
+.chat-bubble .bubble-name .role-dot {
+    width: 6px; height: 6px; border-radius: 50%; display: inline-block;
+}
+
+.chat-bubble .bubble-body {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px; line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.chat-bubble .bubble-body strong { color: var(--text-primary); font-weight: 600; }
+
+.chat-bubble.orchestrator .bubble-name { color: #d2a8ff; }
+.chat-bubble.orchestrator .role-dot { background: #d2a8ff; }
+.chat-bubble.orchestrator .bubble-body { border-color: rgba(210,168,255,0.2); }
+
+.chat-bubble.developer .bubble-name { color: #58a6ff; }
+.chat-bubble.developer .role-dot { background: #58a6ff; }
+.chat-bubble.developer .bubble-body { border-color: rgba(88,166,255,0.15); }
+
+.chat-bubble.frontend .bubble-name { color: #3fb950; }
+.chat-bubble.frontend .role-dot { background: #3fb950; }
+.chat-bubble.frontend .bubble-body { border-color: rgba(63,185,80,0.15); }
+
+.chat-typing {
+    display: flex; gap: 4px; align-items: center;
+    padding: 8px 0;
+    opacity: 0;
+}
+
+.chat-typing span {
+    font-size: 12px; color: var(--text-muted); font-style: italic;
+}
+
+.chat-typing .dots { display: flex; gap: 3px; margin-left: 4px; }
+
+.chat-typing .dots i {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--text-muted);
+    animation: typingDot 1.2s ease-in-out infinite;
+}
+
+.chat-typing .dots i:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing .dots i:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bubbleIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typingDot {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+    30% { opacity: 1; transform: scale(1.3); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.chat-bubble.business .bubble-name { color: #f0883e; }
+.chat-bubble.business .role-dot { background: #f0883e; }
+.chat-bubble.business .bubble-body { border-color: rgba(240,136,62,0.2); }
+
+.chat-bubble.expert .bubble-name { color: #f778ba; }
+.chat-bubble.expert .role-dot { background: #f778ba; }
+.chat-bubble.expert .bubble-body { border-color: rgba(247,120,186,0.2); }
+
+.chat-bubble.researcher .bubble-name { color: #79c0ff; }
+.chat-bubble.researcher .role-dot { background: #79c0ff; }
+.chat-bubble.researcher .bubble-body { border-color: rgba(121,192,255,0.15); }
+
+.chat-bubble.writer .bubble-name { color: #d2a8ff; }
+.chat-bubble.writer .role-dot { background: #d2a8ff; }
+.chat-bubble.writer .bubble-body { border-color: rgba(210,168,255,0.2); }
+
+.chat-bubble.system .bubble-name { color: var(--text-muted); }
+.chat-bubble.system .role-dot { background: var(--success); }
+.chat-bubble.system .bubble-body {
+    border-color: rgba(63,185,80,0.15);
+    background: rgba(63,185,80,0.05);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+/* Tab switcher */
+.chat-tabs {
+    display: flex; gap: 8px; justify-content: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.chat-tab {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font-sans);
+}
+
+.chat-tab:hover {
+    border-color: var(--border-light);
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+
+.chat-tab.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+}
+
+.chat-tab .tab-emoji {
+    margin-right: 6px;
+}
+
+/* ── Screenshot Slider ───────────────────────────── */
+.screenshot-section {
+    padding: 0 24px 60px;
+    margin-top: -10px;
+    overflow: hidden;
+}
+
+.screenshot-slider {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.screenshot-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.screenshot-slide {
+    min-width: 100%;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+.screenshot-slide picture {
+    display: block;
+    width: 100%;
+}
+
+.screenshot-slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: block;
+}
+
+.screenshot-caption {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.screenshot-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.screenshot-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.screenshot-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border-light);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.screenshot-dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
+}
+
+.screenshot-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font-sans);
+}
+
+.screenshot-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--bg-card-hover);
+}
+
+@media (max-width: 600px) {
+    .screenshot-section { padding: 0 12px 40px; }
+    .screenshot-slide img { border-radius: 8px; }
+    .screenshot-btn { width: 32px; height: 32px; }
+}
+
+@media (max-width: 600px) {
+    .chat-demo { margin: 40px 16px 32px; }
+    .chat-bubble { max-width: 100%; }
+    .chat-tabs { gap: 6px; }
+    .chat-tab { padding: 6px 12px; font-size: 12px; }
+}
+
+/* ── Pull Quote ───────────────────────────────────── */
+.pull-quote {
+    text-align: center;
+    padding: 48px 24px;
+    margin-bottom: 56px;
+    position: relative;
+}
+
+.pull-quote p {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--accent);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    text-shadow: 0 0 40px var(--accent-glow);
+}
+
+/* ── Super Harness ────────────────────────────────── */
+.harness-layout {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 64px;
+}
+
+.harness-left h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 800; margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.harness-left .harness-intro {
+    font-size: 18px; color: var(--text-secondary);
+    margin-bottom: 24px; line-height: 1.5;
+}
+
+.harness-left .harness-closing {
+    font-size: 14px; color: var(--text-muted);
+    line-height: 1.6; margin-top: 24px;
+}
+
+.harness-points { display: flex; flex-direction: column; gap: 24px; }
+
+.harness-point {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px;
+}
+
+.harness-point-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--accent-glow);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+
+.harness-point-icon svg { width: 18px; height: 18px; color: var(--accent); }
+
+.harness-point h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.harness-point p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+@media (max-width: 768px) {
+    .harness-layout { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── Pricing ──────────────────────────────────────── */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 56px;
+}
+
+.price-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex; flex-direction: column;
+    position: relative;
+}
+
+.price-card.featured {
+    border-color: var(--accent);
+    box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.price-badge {
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #fff;
+    padding: 3px 14px; border-radius: 12px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.price-card h3 {
+    font-size: 18px; font-weight: 700; margin-bottom: 4px;
+}
+
+.price-card .price-desc {
+    font-size: 13px; color: var(--text-muted); margin-bottom: 20px;
+}
+
+.price-amount {
+    font-size: 40px; font-weight: 800; margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.price-amount span { font-size: 16px; font-weight: 500; color: var(--text-secondary); }
+
+.price-annual {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 24px;
+}
+
+.price-features {
+    list-style: none; flex: 1; margin-bottom: 28px;
+}
+
+.price-features li {
+    font-size: 14px; color: var(--text-secondary);
+    padding: 6px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+}
+
+.price-features li::before {
+    content: '';
+    width: 16px; height: 16px; flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--success);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolyline points='3 8 7 12 13 4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolyline points='3 8 7 12 13 4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.price-card .btn { width: 100%; justify-content: center; }
+
+.price-card.muted { opacity: 0.7; }
+.price-card.muted:hover { opacity: 0.85; }
+
+/* ── Download ─────────────────────────────────────── */
+.download { background: var(--bg-surface); text-align: center; }
+
+.download-buttons {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    margin-top: 32px;
+}
+
+.dl-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    padding: 14px 28px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; color: var(--text-primary);
+    font-family: var(--font-sans); cursor: pointer;
+    transition: all 0.15s;
+}
+
+.dl-btn:hover {
+    background: var(--bg-card-hover); border-color: var(--text-muted);
+    text-decoration: none;
+}
+
+.dl-btn svg { width: 22px; height: 22px; }
+
+.download-note { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+
+/* ── Comparison ───────────────────────────────────── */
+.comparison { background: var(--bg-surface); }
+
+.comparison-table {
+    width: 100%; border-collapse: collapse;
+    margin-top: 48px; font-size: 14px;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+    text-align: left; font-weight: 600;
+    color: var(--text-primary);
+    min-width: 200px;
+}
+
+.comparison-table thead th {
+    font-size: 13px; font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.comparison-table thead th.coral-col {
+    color: var(--accent);
+}
+
+.comparison-table tbody tr:hover {
+    background: rgba(88, 166, 255, 0.03);
+}
+
+.comparison-table .check {
+    color: var(--success); font-size: 18px; font-weight: 700;
+}
+
+.comparison-table .cross {
+    color: var(--text-muted); font-size: 16px;
+}
+
+.comparison-table .partial {
+    color: #f0883e; font-size: 13px; font-weight: 500;
+}
+
+.comparison-table .coral-col {
+    background: rgba(88, 166, 255, 0.04);
+}
+
+.comparison-note {
+    text-align: center; margin-top: 24px;
+    font-size: 13px; color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .comparison-table { font-size: 12px; display: block; overflow-x: auto; }
+    .comparison-table th, .comparison-table td { padding: 10px 8px; min-width: 80px; }
+    .comparison-table th:first-child, .comparison-table td:first-child { min-width: 140px; }
+}
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+}
+
+.footer-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+}
+
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { color: var(--text-muted); font-size: 13px; }
+.footer-links a:hover { color: var(--text-secondary); }
+.footer-copy { font-size: 13px; color: var(--text-muted); }
+
+/* ── Responsive ───────────────────────────────────── */
+.nav-mobile-cta { display: none; }
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-mobile-cta {
+        display: inline-flex;
+        background: var(--accent); color: #fff;
+        padding: 6px 16px; border-radius: 6px; font-weight: 600; font-size: 13px;
+    }
+    section { padding: 60px 16px; }
+    .hero { padding-top: 120px; padding-bottom: 60px; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ── Coral Hub page ───────────────────────────────── */
+.hub-page section { padding: 72px 24px; }
+.hub-page .hero { padding-top: 140px; padding-bottom: 48px; }
+.hub-page .section-sub { margin-bottom: 40px; }
+.hub-page .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.hub-page .nav-links a, .hub-page .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+.hub-page p, .hub-page li { color: var(--text-secondary); }
+.hub-page h1, .hub-page h2, .hub-page h3, .hub-page h4 { color: var(--text-primary); }
+.badge-beta { display: inline-block; background: rgba(210,153,34,.14); border: 1px solid rgba(210,153,34,.55); color: #e3b341;
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: .04em; margin-left: 8px; }
+.hub-note { margin-top: 20px; font-size: 14px; color: var(--text-secondary); }
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--accent); color: #fff; padding: 10px 16px; border-radius: 6px; z-index: 200; }
+.skip-link:focus { left: 8px; }
+a:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* how it works: three steps and the path the data takes */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; list-style: none; counter-reset: step; margin-bottom: 40px; }
+.steps li { counter-increment: step; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.steps li::before { content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+    border-radius: 50%; background: var(--accent-glow); color: var(--accent); font-weight: 800; margin-bottom: 14px; }
+.steps h3 { font-size: 17px; margin-bottom: 8px; }
+.steps p { font-size: 14px; line-height: 1.6; }
+.path { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 12px; list-style: none; }
+.path li { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 14px 18px; text-align: center; font-size: 14px; flex: 1 1 180px; max-width: 260px; }
+.path li strong { display: block; color: var(--text-primary); margin-bottom: 2px; }
+.path .hop { flex: 0 1 auto; align-self: center; background: none; border: none; padding: 0 4px; color: var(--accent); font-size: 13px; font-weight: 600; max-width: 150px; }
+@media (max-width: 768px) { .path { flex-direction: column; align-items: center; } .path li { width: 100%; max-width: 420px; } }
+
+/* access table */
+.table-wrap { overflow-x: auto; margin-bottom: 24px; }
+.access-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+.access-table th, .access-table td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.55; }
+.access-table th { color: var(--text-primary); font-weight: 700; background: var(--bg-card); }
+.access-table td:first-child { color: var(--text-primary); font-weight: 700; white-space: nowrap; }
+.callout { background: rgba(210,153,34,.1); border: 1px solid rgba(210,153,34,.5); border-radius: 10px; padding: 16px 18px; font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+.callout strong { color: var(--text-primary); }
+
+/* privacy: two columns */
+.two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.panel h3 { font-size: 17px; margin-bottom: 12px; }
+.panel ul { padding-left: 20px; }
+.panel li { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+.panel.warn { border-color: rgba(210,153,34,.5); }
+
+details.faq { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 14px 18px; min-height: 44px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; }
+details.faq p { padding: 0 18px 16px; font-size: 14px; line-height: 1.6; }
+.cta-box { background: var(--bg-surface); text-align: center; }
+.cta-box .section-sub { margin-left: auto; margin-right: auto; margin-bottom: 28px; }
+.nav-mobile-hub { display: none; }
+/* white text needs the darker blue to reach 4.5:1 */
+.hub-page .btn-primary, .hub-page .nav-cta, .hub-page .nav-mobile-cta { background: var(--accent-dim); color: #fff !important; }
+.hub-page .nav-inner > a { min-height: 44px; display: flex; align-items: center; }
+.footer-links { flex-wrap: wrap; gap: 0 20px; }
+.nav-mobile-cta { min-height: 44px; align-items: center; }
+
+@media (max-width: 768px) {
+    .nav-mobile-hub { display: inline-flex; align-items: center; min-height: 44px; margin-right: 8px; color: var(--text-primary); font-size: 14px; font-weight: 600; }
+    .hub-page section { padding: 52px 16px; }
+    .hub-page .hero { padding-top: 110px; }
+}
+.legal { max-width: 860px; margin: 0 auto; }
+.legal h1 { font-size: clamp(28px,4vw,40px); font-weight: 800; margin-bottom: 8px; }
+.legal h2 { font-size: 22px; font-weight: 800; margin: 40px 0 12px; }
+.legal p, .legal li { font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
+.legal ul { padding-left: 22px; }
+.legal .updated { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
+.legal table { border-collapse: collapse; width: 100%; min-width: 640px; }
+.legal th, .legal td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.55; }
+.legal th { background: var(--bg-card); color: var(--text-primary); }
+.legal td:first-child { color: var(--text-primary); font-weight: 600; }
+
+@media (max-width: 640px) {
+    /* each row becomes a readable card: no horizontal scrolling for the descriptions */
+    .access-table { min-width: 0; }
+    .access-table thead { position: absolute; left: -9999px; }
+    .access-table, .access-table tbody, .access-table tr, .access-table td { display: block; width: 100%; }
+    .access-table tr { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; padding: 12px 14px; }
+    .access-table td { border: 0; padding: 4px 0; font-size: 15px; }
+    .access-table td:first-child { white-space: normal; font-size: 17px; }
+    .legal table { min-width: 0; }
+    .legal thead { position: absolute; left: -9999px; }
+    .legal table, .legal tbody, .legal tr, .legal td { display: block; width: 100%; }
+    .legal tr { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; padding: 10px 14px; }
+    .legal td { border: 0; padding: 4px 0; }
+    .legal td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
+    .legal td:first-child::before { margin-top: 0; }
+}
+</style>
+<link rel="stylesheet" href="/site-nav.css">
+</head>
+<body class="hub-page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="snav" aria-label="Main">
+    <div class="snav-inner">
+        <a class="snav-logo" href="/"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="#58a6ff" stroke-width="2"/><circle cx="16" cy="16" r="6" fill="#58a6ff" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#58a6ff"/></svg><span>Coral<small>by Subgentic.ai</small></span></a>
+        <ul class="snav-menu" id="site-menu">
+            <li><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-products">Products</button>
+                <ul class="snav-sub" id="sub-products" hidden>
+                    <li><a href="/coral.html"><strong>Coral</strong><span>Run agents locally</span></a></li>
+                    <li><a href="/hub.html"><strong>Coral Hub</strong><span>Hosted service (closed beta)</span></a></li>
+                    <li><a href="/run-your-own-hub.html"><strong>Run your own hub</strong><span>Self-host on your machine</span></a></li>
+                </ul></li>
+            <li><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-resources">Resources</button>
+                <ul class="snav-sub" id="sub-resources" hidden>
+                    <li><a href="https://cdknorow.github.io/coral/"><strong>Documentation</strong><span>Guides and reference</span></a></li>
+                    <li><a href="/tutorials.html"><strong>Tutorials</strong><span>Step-by-step walkthroughs</span></a></li>
+                    <li><a href="/blog/"><strong>Blog</strong><span>Patterns and field notes</span></a></li>
+                </ul></li>
+            <li><a href="/hub.html">Coral Hub</a></li>
+            <li><a href="/support.html">Support</a></li>
+        </ul>
+        <a class="snav-cta" href="/hub.html#request">Request beta access</a>
+        <button type="button" class="snav-toggle" aria-expanded="false" aria-controls="site-menu">Menu</button>
+    </div>
+</nav>
+
+<main id="main">
+<section style="padding-top:120px;">
+<div class="legal">
+
+<h1>Coral Hub: privacy information</h1>
+<p class="updated">This page describes the Coral Hub service we operate at app.coralhub.dev. It does not apply to a hub you host yourself using <code>coral --hub</code> (see <a href="/run-your-own-hub.html">Run your own hub</a>). On this page, &ldquo;the hub&rdquo; means Coral Hub (the hosted service at app.coralhub.dev).</p>
+<p class="updated">Coral Hub is in closed beta. This page describes how the hub handles your data. It is a technical disclosure written in plain language, not legal advice. It is about Coral Hub only: the <a href="/privacy.html">Coral app privacy policy</a> covers the Coral desktop app.</p>
+<p class="updated">Last updated: 15 October 2026. Coral Hub is in closed beta; this information may change, and we will update the date when it does.</p>
+
+<h2>The short version</h2>
+<ul>
+<li>Coral Hub <strong>can read what passes through it.</strong> When you open a terminal, chat or file from one of your Coral servers in the hub, the content travels from your server to the hub and on to your browser. Both connections use TLS, but the hub is the end of each one, so it can read the content while it passes through. This is not end-to-end encryption.</li>
+<li>Coral Hub <strong>does not save that content.</strong> It is held in memory while it is being relayed and is not written to the database, the logs or disk.</li>
+<li>Coral Hub <strong>does save a small amount of account information</strong>, listed below.</li>
+</ul>
+
+<h2>What the hub keeps in memory briefly</h2>
+<p>To show your agents in one list, the hub keeps a short summary of each connected server's agents in memory (names, status, branch, a short summary, token counts; at most 500 live agents plus up to 200 archived ones per server, about 1.25 MiB in all). If a server's connection drops, the hub keeps only presence (name and status, not summaries, prompts, paths or commands) for 10 minutes and then forgets it. None of this is written to disk or the database. A signed-in session's account id and email are also held in memory for a few seconds, so the hub does not have to read the database on every request (a short session cache); nothing new is written anywhere.</p>
+
+<h2>What passes through the hub but is not stored</h2>
+<p>Terminal output and the keys you type, chat messages, file contents and listings, agent prompts, task and board data, and the requests used to launch agents. Hub logs record only that a request happened (method, route name, result, size, duration), never its content, its query string or any credential.</p>
+<p>If you are not comfortable with a service operated by someone else being technically able to read this traffic while it is in transit, do not connect that Coral server to the hub. Local Coral keeps working without the hub.</p>
+
+<h2>Messages between your own Coral servers (team messaging)</h2>
+<p>This applies only if you turn on team messaging for your account. It is off by default, for every account, until you switch it on in Coral Hub.</p>
+<ul>
+<li><strong>What it does.</strong> When team messaging is on and you have linked two teams, the hub passes a message from a team on one of your Coral servers to a team on another of your Coral servers. This happens between your machines, without a browser open, and the hub can read the message while it passes through.</li>
+<li><strong>It does not store the message.</strong> The message is held in memory only while it is being delivered. It is not written to the database, the logs or disk, and there is no queue. To stop duplicates, the hub keeps the sender's message id (not the content) in memory for 10 minutes. If the receiving server is offline, the message is refused, the sender is told it failed, and it can send the message again.</li>
+<li><strong>Links are yours to control.</strong> A message can only go along a link you created, from one named team to one named team. A link works in one direction only (you can approve both directions in one step, which creates two links). You can revoke a link, or switch team messaging off, at any time; revoking takes effect on the next message.</li>
+<li><strong>Notices to both teams.</strong> When you create or revoke a link, Coral Hub posts a short notice to the message boards of both teams (for example, "You can now message homelab/platform (via Coral Hub)"). The text is fixed and written by Coral; nothing is stored for it, and if a server is offline the notice is not delivered later.</li>
+<li><strong>A machine can ask where it may send.</strong> A Coral server can ask the hub which teams a given team is linked to. The hub answers with only the addresses you approved for that team. It is not a directory: it does not list your other servers or teams.</li>
+<li><strong>Servers in your account only.</strong> A message can only reach a server in your own account.</li>
+</ul>
+
+<h2>What we store, why, and for how long</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th scope="col">Data</th><th scope="col">Why</th><th scope="col">How long</th></tr></thead>
+<tbody>
+<tr><td data-label="Data">Email address</td><td data-label="Why">Your account and sign-in links</td><td data-label="How long">Until your account is deleted. During the closed beta, write to hello@subgentic.ai and we will delete your account and its data; encrypted backups age out within 30 days</td></tr>
+<tr><td data-label="Data">GitHub numeric id (if you sign in with GitHub)</td><td data-label="Why">To recognise you on later sign-ins. We do not store your GitHub access token or other profile data</td><td data-label="How long">Until you unlink or delete your account</td></tr>
+<tr><td data-label="Data">Server labels, settings (for example the server's access mode: view, interact or launch) and last-seen time</td><td data-label="Why">To show and manage your connected servers</td><td data-label="How long">Until you remove the server or delete your account</td></tr>
+<tr><td data-label="Data">Dashboard preferences: theme, default agent type and permission mode, diff mode, display toggles, your custom colour themes, tags, folder tags and saved views</td><td data-label="Why">So the web dashboard looks and behaves the way you set it, on every device</td><td data-label="How long">Until you change or delete them, or delete your account. Never contains session content or paths from your machines other than the folder names you tag</td></tr>
+<tr><td data-label="Data">Team links you create (if you use team messaging): the sending and receiving server, and the team names you chose on each</td><td data-label="Why">To know which team may message which team</td><td data-label="How long">Until you revoke it; a revoked link is kept for 30 days, then deleted automatically; all your links go when the server is removed or you delete your account</td></tr>
+<tr><td data-label="Data">Server address names: a short name for each server (for example <code>mac-mini</code>), made from the server's label when it is enrolled and used to address messages between your servers</td><td data-label="Why">So a team can name another of your servers when sending a message</td><td data-label="How long">Kept after a server is removed (the name is reserved and never reused) and deleted with your account. Renaming the server does not change its address name</td></tr>
+<tr><td data-label="Data">Hashed server tokens</td><td data-label="Why">To let your Coral server reconnect. We store only a one-way hash, never the token itself</td><td data-label="How long">Until revoked; revoked servers are kept for 30 days for the audit trail, then deleted</td></tr>
+<tr><td data-label="Data">Hashed session identifiers</td><td data-label="Why">To keep you signed in</td><td data-label="How long">Deleted at sign-out; at most 24 hours idle and 30 days total</td></tr>
+<tr><td data-label="Data">Hashed one-time codes: sign-in links, OAuth state, server enrollment codes</td><td data-label="Why">To complete sign-in and enrollment</td><td data-label="How long">Minutes to hours; expired rows are purged automatically</td></tr>
+<tr><td data-label="Data">Audit events: sign-in, sign-out, enrolling or revoking a server, setting changes, launches from the web, and turning auto-accept on or off (time, your account, the machine, on or off; never the agent name or any prompt text), and, if you use team messaging, switching it on or off and creating or revoking a link (time, your account, the server and your IP address, but not your browser's user-agent text). Relayed messages are recorded separately: only ids, the outcome (delivered or why not) and the size in bytes, with no IP address or browser text, and never the message content or any team or board names (nor the sender's names or the message id). Every other audit event also has a time, your account, the server involved, your IP address and your browser's user-agent text</td><td data-label="Why">Security, abuse response and so you can review activity on your account</td><td data-label="How long">30 days, then purged automatically</td></tr>
+<tr><td data-label="Data">Failed-sign-in and attack-signal events (bad server tokens, refused sign-in links, enrollment lockouts, blocked-access attempts), with the IP address, but no account details when the account is unknown</td><td data-label="Why">Security and abuse response</td><td data-label="How long">30 days, then purged automatically</td></tr>
+<tr><td data-label="Data">Operator actions (disabling an account, revoking a server by hand)</td><td data-label="Why">A tamper-evident operator log kept outside the database so the actions can be re-applied after a restore. Holds account and server ids, the operator's name and times, never emails or content</td><td data-label="How long">360 days; older entries are replaced by a summary of the resulting state, which holds only pseudonymous account and server ids (never emails). This log is operator data, outside the database backups, and is not covered by the 30-day retention</td></tr>
+<tr><td data-label="Data">Operational metrics</td><td data-label="Why">Running the service. Counts only; no emails, ids, IP addresses or content in labels</td><td data-label="How long">30 days</td></tr>
+<tr><td data-label="Data">Web server (proxy) access logs</td><td data-label="Why">Abuse response and troubleshooting. Time, route, result and your IP address; query strings, headers and cookies are removed</td><td data-label="How long">Rotated automatically: three files of 10 MB, so about 30 MB (the time this covers depends on traffic)</td></tr>
+<tr><td data-label="Data">Encrypted database backups</td><td data-label="Why">Recovery</td><td data-label="How long">30 days of backups are kept, then deleted. The encrypted backup is also copied off-site to object storage at the hosting provider, and the 30-day retention applies to that copy as well. Backups contain the data above in encrypted form. A restored backup can briefly bring back rows older than 30 days until the next purge run</td></tr>
+</tbody>
+</table>
+</div>
+<p>We do not sell this data. We do not use it for advertising. We do not store payment information in the hub.</p>
+
+<h2>Cookies</h2>
+<p>Three cookies, all strictly necessary, all <code>Secure</code> and <code>HttpOnly</code>. <code>__Host-coral_hub_session</code> keeps you signed in. <code>__Host-coral_hub_pre</code> (about an hour) is used during sign-in to make sure the link or OAuth reply returns to the same browser. <code>__Host-coral_next</code> (10 minutes) is set only when you open a dashboard link while signed out. It remembers which page you were opening, so sign-in can take you back to it; it holds only a path on the hub, is used once, and is then cleared. All three are host-only: the browser sends them to the hub's own address and to no other. No tracking or advertising cookies. The Coral Hub web app at app.coralhub.dev loads no third-party scripts, fonts or images.</p>
+
+<h2>Who else sees your data</h2>
+<ul>
+<li><strong>Your email provider</strong> and the <strong>mail service</strong> used to send sign-in links see your address and that a link was sent.</li>
+<li><strong>GitHub</strong>, if you choose GitHub sign-in, sees that you signed in to this service.</li>
+<li><strong>GitHub (release check):</strong> the hub server itself contacts <code>api.github.com</code> once an hour to learn the newest public Coral release, so it can tell you when your machine is behind. It sends no user data, credentials, account or server information; GitHub sees only the hub's IP address and a <code>coral-hub</code> user agent.</li>
+<li>The <strong>hosting provider</strong>: the hub runs on a single server at a commercial cloud provider, with an encrypted off-site backup copy at the same provider. Traffic and stored data are on their infrastructure. The provider and region are not yet listed here.</li>
+<li>A <strong>certificate authority</strong>: the public certificate request for the hub's domain.</li>
+<li><strong>Operators</strong> of the hub have access to the database and to live traffic on the machine. That access is limited to the operators of the service; changes made through the Hub's operator commands are recorded in the operator log.</li>
+</ul>
+
+<h2>Who can see what, between users</h2>
+<p>Each account sees only its own servers and agents. The hub enforces this in the application and again in the database. Another user cannot list, open or launch anything on your servers.</p>
+
+<h2>Your choices</h2>
+<ul>
+<li><strong>Each server starts in view-only mode.</strong> Typing into agents (interact) and starting agents (launch) are separate, per-server choices that also need the setting on the Coral server itself. Cross-team messaging between boards on a machine is off by default and both boards must opt in. It is turned on from that machine, per board, and cannot be turned on through Coral Hub at any access mode, Interact and Launch included. Once on, it lets agents on different boards of the same machine pass messages to each other.</li>
+<li><strong>Auto-accept:</strong> Turning auto-accept on for an agent requires Launch mode on that machine and the local switch in Coral's Settings. Turn it off at any time with Interact mode or from the machine itself. Auto-accept ends automatically when the time limit runs out, when the agent restarts or wakes, when access is lowered below Launch, or when the owner lowers the local maximum.</li>
+<li><strong>Team messaging is off until you turn it on,</strong> and each link is one-way and revocable. While it is off nothing is relayed between your servers, and your links are kept. Turning it on is a deliberate choice in Coral Hub; it needs a signed-in account owner. Messages between your servers need the receiving server to be set to Interact or higher.</li>
+<li><strong>Revoke any server</strong> from the Servers page at any time; its connection is closed immediately.</li>
+<li><strong>Sign out everywhere</strong> to end all browser sessions.</li>
+</ul>
+
+<h2>Deleting your account</h2>
+<p>During the closed beta, write to <a href="mailto:hello@subgentic.ai">hello@subgentic.ai</a> and we will delete your account and its data; encrypted backups age out within 30 days.</p>
+
+<h2>Questions</h2>
+<p>Write to <a href="mailto:hello@subgentic.ai">hello@subgentic.ai</a>.</p>
+
+</div>
+</section>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-links">
+            <a href="/coral.html">Coral</a>
+            <a href="/hub.html">Coral Hub</a>
+            <a href="/run-your-own-hub.html">Run your own hub</a>
+            <a href="https://cdknorow.github.io/coral/">Docs</a>
+            <a href="https://github.com/cdknorow/coral">GitHub</a>
+            <a href="/tos.html">Terms of Service</a>
+            <a href="/privacy.html">Coral app privacy</a>
+            <a href="/support.html">Support</a>
+        </div>
+        <div class="footer-copy">&copy; 2026 Subgentic.ai<br><a href="mailto:hello@subgentic.ai" style="color:var(--text-secondary);">hello@subgentic.ai</a> &middot; <a href="mailto:support@subgentic.ai" style="color:var(--text-secondary);">support@subgentic.ai</a></div>
+    </div>
+</footer>
+
+<script src="/site-nav.js" defer></script>
+</body>
+</html>

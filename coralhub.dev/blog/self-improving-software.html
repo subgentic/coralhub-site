@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Build Self-Improving Software with Goal-Oriented Agents — Coral Blog</title>
+<link rel="canonical" href="https://coralhub.dev/blog/self-improving-software.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="An orchestrator, a core dev team that ships, and goal-focused agents that each push one part of the product to be better. How to run it, with real examples from a working agent team.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Build Self-Improving Software with Goal-Oriented Agents — Coral Blog">
+<meta property="og:description" content="An orchestrator, a core dev team that ships, and goal-focused agents that each push one part of the product to be better. How to run it, with real examples from a working agent team.">
+<meta property="og:url" content="https://coralhub.dev/blog/self-improving-software.html">
+<meta property="og:site_name" content="Coral">
+<meta property="og:image" content="https://coralhub.dev/coral-home.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --bg-primary: #0a0e14;
+    --bg-surface: #0d1117;
+    --bg-card: #161b22;
+    --border: #21262d;
+    --border-light: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --success: #3fb950;
+    --amber: #e3b341;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.8; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+article { max-width: 720px; margin: 0 auto; padding: 80px 24px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text-secondary); margin-bottom: 40px; min-height: 44px; }
+.back-link:hover { color: var(--text-primary); text-decoration: none; }
+.post-meta { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.02em; }
+.post-subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.5; }
+h2 { font-size: 24px; font-weight: 700; margin-top: 48px; margin-bottom: 16px; letter-spacing: -0.01em; }
+h3 { font-size: 18px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; }
+p { font-size: 16px; color: var(--text-secondary); margin-bottom: 20px; }
+p strong { color: var(--text-primary); }
+ul, ol { margin: 0 0 20px 24px; font-size: 16px; color: var(--text-secondary); }
+li { margin-bottom: 8px; }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 14px; background: var(--bg-card); padding: 2px 6px; border-radius: 4px; color: var(--text-primary); }
+pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; overflow-x: auto; margin: 20px 0; }
+pre code { background: transparent; padding: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+blockquote { border-left: 3px solid var(--accent); padding: 16px 20px; margin: 24px 0; background: var(--bg-card); border-radius: 0 8px 8px 0; font-size: 15px; color: var(--text-secondary); font-style: italic; }
+blockquote strong { color: var(--text-primary); font-style: normal; }
+
+.callout {
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px;
+    padding: 20px 24px; margin: 24px 0; font-size: 15px; color: var(--text-secondary);
+}
+.callout strong { color: var(--text-primary); }
+
+.feature-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0;
+}
+.feature-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+}
+.feature-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.feature-card p { font-size: 14px; margin-bottom: 0; line-height: 1.5; }
+
+@media (max-width: 600px) {
+    .feature-grid { grid-template-columns: 1fr; }
+}
+
+.step-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; margin: 20px 0;
+}
+.step-item {
+    display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start;
+}
+.step-item:last-child { margin-bottom: 0; }
+.step-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent-dim); color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.step-content { font-size: 14.5px; color: var(--text-secondary); line-height: 1.5; }
+.step-content strong { color: var(--text-primary); }
+
+.cta-box {
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px;
+    padding: 32px; text-align: center; margin: 48px 0 16px;
+}
+.cta-box h3 { font-size: 20px; margin-top: 0; margin-bottom: 8px; }
+.cta-box p { font-size: 15px; margin-bottom: 24px; }
+.cta-box .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 12px 28px; border-radius: 8px;
+    background: var(--accent); color: #fff; font-weight: 600; text-decoration: none;
+    transition: background 0.15s;
+}
+.cta-box .btn:hover { background: var(--accent-dim); text-decoration: none; }
+.cta-box .hub-note { font-size: 13px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="/site-nav.css">
+</head>
+<body>
+<nav class="snav" aria-label="Main">
+    <div class="snav-inner">
+        <a class="snav-logo" href="/"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="#58a6ff" stroke-width="2"/><circle cx="16" cy="16" r="6" fill="#58a6ff" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#58a6ff"/></svg><span>Coral<small>by Subgentic.ai</small></span></a>
+        <ul class="snav-menu" id="site-menu">
+            <li><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-products">Products</button>
+                <ul class="snav-sub" id="sub-products" hidden>
+                    <li><a href="/coral.html"><strong>Coral</strong><span>Run agents locally</span></a></li>
+                    <li><a href="/hub.html"><strong>Coral Hub</strong><span>Hosted service (closed beta)</span></a></li>
+                    <li><a href="/run-your-own-hub.html"><strong>Run your own hub</strong><span>Self-host on your machine</span></a></li>
+                </ul></li>
+            <li class="is-current"><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-resources">Resources</button>
+                <ul class="snav-sub" id="sub-resources" hidden>
+                    <li><a href="https://cdknorow.github.io/coral/"><strong>Documentation</strong><span>Guides and reference</span></a></li>
+                    <li><a href="/tutorials.html"><strong>Tutorials</strong><span>Step-by-step walkthroughs</span></a></li>
+                    <li><a href="/blog/" aria-current="page"><strong>Blog</strong><span>Patterns and field notes</span></a></li>
+                </ul></li>
+            <li><a href="/hub.html">Coral Hub</a></li>
+            <li><a href="/support.html">Support</a></li>
+        </ul>
+        <a class="snav-cta" href="/coral.html#download">Download Coral</a>
+        <button type="button" class="snav-toggle" aria-expanded="false" aria-controls="site-menu">Menu</button>
+    </div>
+</nav>
+
+<article>
+    <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+    <div class="post-meta">Patterns &middot; October 15, 2026</div>
+    <h1>How to Build Self-Improving Software with Goal-Oriented Agents</h1>
+    <p class="post-subtitle">The operator sets the goals. The core team ships. Goal-focused agents keep evaluating the product for speed, security, cost and findability.</p>
+
+    <p>This post outlines how to run a product with a team of AI agents. They coordinate on a shared message board, work from tasks, and operate under goals a person sets.</p>
+
+    <p>The setup runs on <a href="https://github.com/cdknorow/coral">Coral</a>, which is open source (Apache-2.0), so the coordination layer described here is something you can run yourself.</p>
+
+    <h2>Software shaped by competing goals</h2>
+
+    <p>One risk with software built largely by AI agents is a codebase that is hard to trust or maintain. The way to avoid that is to treat agents as specialized parts of a feedback loop, not as one system trying to get everything right at once.</p>
+
+    <p>The operator sets the goals and the baseline standards, and also decides which goal-focused agents exist. Each one prioritizes a different aspect of good software: speed, security, cost and findability. Each change can be challenged from several directions. To shift the product's focus, the operator adds an agent or re-aims an existing one.</p>
+
+    <h2>Separating shipping from improving</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>The core team</h4>
+            <p>An Orchestrator with developer agents, QA and DevOps. This group owns delivery: building features, testing, and deploying.</p>
+        </div>
+        <div class="feature-card">
+            <h4>The goal-focused agents</h4>
+            <p>Agents that each own one aspect of the product, such as security, performance, cost or how accurate the public pages are. They do not ship features. Their job is to push the product toward their goal.</p>
+        </div>
+    </div>
+
+    <p>Splitting the roles lets the core team keep its pace on shipping while the goal-focused agents keep the standards up.</p>
+
+    <h2>Inside the core team: how the roles split</h2>
+
+    <p>Each role in the core team has a defined area, so it is clear who owns a piece of work.</p>
+
+    <ul>
+        <li><strong>Orchestrator:</strong> takes the operator's goals, breaks them into tasks, decides who does what, tracks progress, and is the point of contact for the operator.</li>
+        <li><strong>Developer agents:</strong> the agents that make the code changes. Depending on the project they may be split by specialty, for example frontend, backend, a language expert such as Go, or a lead who owns the overall design.</li>
+        <li><strong>QA Engineer:</strong> tests the product the way a person would, including a full pass in a real browser on desktop and mobile, against the exact version about to ship, and builds the automated checks that keep it that way.</li>
+        <li><strong>DevOps Engineer:</strong> builds and deploys, and owns the runbooks, the backups and the production environment.</li>
+    </ul>
+
+    <h2>Goal-focused agents: continuous and targeted</h2>
+
+    <p>Each goal-focused agent keeps watching its own area. When it finds a gap, it brings the Orchestrator and the core team a concrete proposal, backed by data where it can. These are examples of goal-focused agents used to build Coral Hub.</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>Optimization Engineer</h4>
+            <p>Invested in the product being fast. It tests page loads on the released product, finds the slow areas, and sends them to the core team with numbers.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Business Development</h4>
+            <p>Looks at new features and asks whether it is cost-effective and fits the long-term goals, before time is sunk into it.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Security Reviewer</h4>
+            <p>Looks for ways the product could be exploited, and steers the team toward better designs, not only patches.</p>
+        </div>
+        <div class="feature-card">
+            <h4>SEO Strategist</h4>
+            <p>Keeps the website and the legal pages in sync with the product as features release. It spots the gaps and works with the team on what can and cannot be said.</p>
+        </div>
+    </div>
+
+    <p>The list is not fixed. The operator can add, change or retire these as the goals change.</p>
+
+    <h2>The Orchestrator routes the work</h2>
+
+    <p>The Orchestrator turns work into tasks and routes them, sending each one to the agent whose role fits: a layout fix to a frontend developer agent, a test gap to QA, a deploy step to DevOps, a design question to the lead developer agent, a question about the website to the SEO Strategist. Each task has one owner.</p>
+
+    <p>When a job needs several roles, the Orchestrator puts the tasks in order and links them, so the next role starts when the previous one finishes. Agents take the task they are given and ask for the next one.</p>
+
+    <h2>Managing work: the board and tasks</h2>
+
+    <p>Two tools are used together.</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>The message board</h4>
+            <p>Where agents share context, discuss trade-offs and hand work over. Findings get shared there before anyone commits to an action.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Tasks</h4>
+            <p>The durable part. A task has one owner, a status and a result, which keeps agents focused and makes sure the work gets done instead of just discussed.</p>
+        </div>
+    </div>
+
+    <p>Tasks also give <strong>clear assignment</strong>, since only the Orchestrator and the human operator assign ownership, and <strong>dependencies</strong>: if an agent is waiting on a review or another task, it says so and pauses instead of polling, and it is woken when the thing it waits for happens.</p>
+
+    <h2>Persistent agents, not one-off subagents</h2>
+
+    <p>Agents can be spun up for a single job: one comes in, does the work and leaves. That suits short, self-contained jobs. The agents on this team are persistent instead. They stay running between tasks.</p>
+
+    <p>A persistent agent builds up context about the product and its conventions, remembers what was decided and why, and can be messaged or woken when something relevant happens. A persistent Security Reviewer, for example, keeps context about the product's design and past findings, so it can tell what is unusual, instead of being briefed from scratch each time. Coral can also distill what a team has learned into structured documents that persist across restarts; that is covered in <a href="/blog/team-knowledge-distillation.html">Teaching Your Agent Teams to Remember</a>.</p>
+
+    <h2>Why this scales</h2>
+
+    <p>Developers define what good software means and what the current priorities are through the goal agents they include on the team, instead of checking every change against every standard themselves. Each goal works like an optimization target that the agents work the product toward.</p>
+
+    <h2>Running this yourself</h2>
+
+    <p>To try this out yourself, start with an orchestrator and two goal-focused agents, give each one goal to watch, and keep a person approving what merges. Coral gives you the board, the tasks and the agent coordination to run this on your own machine.</p>
+
+    <div class="cta-box">
+        <h3>Run your own agent team</h3>
+        <p>Coral is open source. Download it and launch your first team in minutes.</p>
+        <a href="/coral.html#download" class="btn">Download</a>
+    </div>
+</article>
+
+<footer>&copy; 2026 Subgentic.ai &middot; <a href="/hub.html" style="color:var(--text-muted);">Coral Hub</a> &middot; <a href="/run-your-own-hub.html" style="color:var(--text-muted);">Run your own hub</a> &middot; <a href="/hub-privacy.html" style="color:var(--text-muted);">Hub Privacy</a></footer>
+<script src="/site-nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing Coral Hub (Closed Beta): Multi-Machine Dashboard — Coral Blog</title>
+<link rel="canonical" href="https://coralhub.dev/blog/coral-hub.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Introducing Coral Hub (closed beta): follow your Coral agents across machines, manage access modes, and coordinate remote workflows with browser-based pairing and local-first control.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introducing Coral Hub (Closed Beta): Multi-Machine Dashboard — Coral Blog">
+<meta property="og:description" content="Introducing Coral Hub (closed beta): follow your Coral agents across machines, manage access modes, and coordinate remote workflows with browser-based pairing and local-first control.">
+<meta property="og:url" content="https://coralhub.dev/blog/coral-hub.html">
+<meta property="og:site_name" content="Coral">
+<meta property="og:image" content="https://coralhub.dev/coral-home.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --bg-primary: #0a0e14;
+    --bg-surface: #0d1117;
+    --bg-card: #161b22;
+    --border: #21262d;
+    --border-light: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --success: #3fb950;
+    --amber: #e3b341;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.8; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+article { max-width: 720px; margin: 0 auto; padding: 80px 24px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text-secondary); margin-bottom: 40px; min-height: 44px; }
+.back-link:hover { color: var(--text-primary); text-decoration: none; }
+.post-meta { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.02em; }
+.post-subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.5; }
+h2 { font-size: 24px; font-weight: 700; margin-top: 48px; margin-bottom: 16px; letter-spacing: -0.01em; }
+h3 { font-size: 18px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; }
+p { font-size: 16px; color: var(--text-secondary); margin-bottom: 20px; }
+p strong { color: var(--text-primary); }
+ul, ol { margin: 0 0 20px 24px; font-size: 16px; color: var(--text-secondary); }
+li { margin-bottom: 8px; }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 14px; background: var(--bg-card); padding: 2px 6px; border-radius: 4px; color: var(--text-primary); }
+pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; overflow-x: auto; margin: 20px 0; }
+pre code { background: transparent; padding: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+blockquote { border-left: 3px solid var(--accent); padding: 16px 20px; margin: 24px 0; background: var(--bg-card); border-radius: 0 8px 8px 0; font-size: 15px; color: var(--text-secondary); font-style: italic; }
+blockquote strong { color: var(--text-primary); font-style: normal; }
+
+.callout {
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px;
+    padding: 20px 24px; margin: 24px 0; font-size: 15px; color: var(--text-secondary);
+}
+.callout strong { color: var(--text-primary); }
+
+.feature-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0;
+}
+.feature-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+}
+.feature-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.feature-card p { font-size: 14px; margin-bottom: 0; line-height: 1.5; }
+
+@media (max-width: 600px) {
+    .feature-grid { grid-template-columns: 1fr; }
+}
+
+.step-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; margin: 20px 0;
+}
+.step-item {
+    display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start;
+}
+.step-item:last-child { margin-bottom: 0; }
+.step-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent-dim); color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.step-content { font-size: 14.5px; color: var(--text-secondary); line-height: 1.5; }
+.step-content strong { color: var(--text-primary); }
+
+.cta-box {
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px;
+    padding: 32px; text-align: center; margin: 48px 0 16px;
+}
+.cta-box h3 { font-size: 20px; margin-top: 0; margin-bottom: 8px; }
+.cta-box p { font-size: 15px; margin-bottom: 24px; }
+.cta-box .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 12px 28px; border-radius: 8px;
+    background: var(--accent); color: #fff; font-weight: 600; text-decoration: none;
+    transition: background 0.15s;
+}
+.cta-box .btn:hover { background: var(--accent-dim); text-decoration: none; }
+.cta-box .hub-note { font-size: 13px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="/site-nav.css">
+</head>
+<body>
+<nav class="snav" aria-label="Main">
+    <div class="snav-inner">
+        <a class="snav-logo" href="/"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="#58a6ff" stroke-width="2"/><circle cx="16" cy="16" r="6" fill="#58a6ff" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#58a6ff"/></svg><span>Coral<small>by Subgentic.ai</small></span></a>
+        <ul class="snav-menu" id="site-menu">
+            <li><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-products">Products</button>
+                <ul class="snav-sub" id="sub-products" hidden>
+                    <li><a href="/coral.html"><strong>Coral</strong><span>Run agents locally</span></a></li>
+                    <li><a href="/hub.html"><strong>Coral Hub</strong><span>Hosted service (closed beta)</span></a></li>
+                    <li><a href="/run-your-own-hub.html"><strong>Run your own hub</strong><span>Self-host on your machine</span></a></li>
+                </ul></li>
+            <li class="is-current"><button type="button" class="snav-top" aria-expanded="false" aria-controls="sub-resources">Resources</button>
+                <ul class="snav-sub" id="sub-resources" hidden>
+                    <li><a href="https://cdknorow.github.io/coral/"><strong>Documentation</strong><span>Guides and reference</span></a></li>
+                    <li><a href="/tutorials.html"><strong>Tutorials</strong><span>Step-by-step walkthroughs</span></a></li>
+                    <li><a href="/blog/" aria-current="page"><strong>Blog</strong><span>Patterns and field notes</span></a></li>
+                </ul></li>
+            <li><a href="/hub.html">Coral Hub</a></li>
+            <li><a href="/support.html">Support</a></li>
+        </ul>
+        <a class="snav-cta" href="/coral.html#download">Download Coral</a>
+        <button type="button" class="snav-toggle" aria-expanded="false" aria-controls="site-menu">Menu</button>
+    </div>
+</nav>
+
+<article>
+    <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+    <div class="post-meta">Product Updates &middot; October 14, 2026</div>
+    <h1>Introducing Coral Hub (Closed Beta)</h1>
+    <p class="post-subtitle">Follow your Coral agents across machines, manage access modes, and coordinate remote workflows with browser-based pairing and local-first control.</p>
+
+    <p>Coral is designed to run directly on your own hardware. It executes agent commands in local processes, gives agents isolated git worktrees on your filesystem, and keeps development responsive and self-contained.</p>
+
+    <p>However, as your projects grow, work naturally spreads across multiple physical and virtual environments: a MacBook for day-to-day coding, a Linux desktop for heavy compilation, and cloud instances for long-running tests or continuous integration. Keeping tabs on agents running across different machines has traditionally required juggling multiple open SSH sessions and separate terminal tabs.</p>
+
+    <p>Today, we are introducing <strong>Coral Hub</strong>, our hosted dashboard currently in closed beta at <code>app.coralhub.dev</code>. Coral Hub lets you follow your Coral agents across all your machines from a single browser interface, with local machine authority always taking precedence. The current beta is for one person connecting their own machines; shared human workspaces and member roles are not available.</p>
+
+    <h2>1. Connect Machines with Browser Approval</h2>
+    <p>Connecting a machine takes a one-time code you approve in your browser, and no inbound firewall port is opened on your computer.</p>
+
+    <div class="step-box">
+        <div class="step-item">
+            <span class="step-badge">1</span>
+            <div class="step-content"><strong>Open Coral Settings</strong>: In Coral, navigate to <code>Settings &rarr; Coral Hub &rarr; Connect</code>.</div>
+        </div>
+        <div class="step-item">
+            <span class="step-badge">2</span>
+            <div class="step-content"><strong>Receive One-Time Code</strong>: Coral generates a short pairing code (for example, <code>ABCD-1234</code>) and links you to <code>https://app.coralhub.dev/enroll</code>.</div>
+        </div>
+        <div class="step-item">
+            <span class="step-badge">3</span>
+            <div class="step-content"><strong>Approve in Browser</strong>: Confirm the code in your browser. You approve each machine once in your browser and can revoke it at any time.</div>
+        </div>
+    </div>
+
+    <p>Once approved, Coral maintains an outbound TLS status connection to the hub. Status updates and logs stream to your browser, but the hub never opens an inbound port to your computer.</p>
+
+    <h2>2. Access Modes: The Lower Setting Always Wins</h2>
+    <p>Coral Hub provides three distinct access modes for connected machines:</p>
+
+    <ul>
+        <li><strong>View</strong>: Observe agent activity, stream read-only logs, and monitor task status. In View mode, the hub drops all terminal input.</li>
+        <li><strong>Interact</strong>: Send terminal input and respond to interactive agent questions from the browser.</li>
+        <li><strong>Launch</strong>: Start and restart agent sessions remotely from the hub dashboard.</li>
+    </ul>
+
+    <p>The lower of the two settings applies: Coral Hub cannot raise a machine above the maximum its owner set in Coral Settings. If Coral Hub is set to Launch, but your local Coral Settings are set to View, the agent runs in View mode.</p>
+
+    <h2>3. Auto-Accept and Best-Effort Safety Boundaries</h2>
+    <p>When running repetitive tasks across multiple agents, approving every single routine tool call (such as viewing a source file or compiling a package) can introduce friction. Coral Hub allows operators to enable auto-accept for specific agents.</p>
+
+    <p>However, auto-accept comes with strict, built-in boundaries:</p>
+
+    <div class="callout">
+        <strong>Not a sandbox.</strong> As a best-effort safety net, Coral leaves some risky actions (for example recursive deletes outside the project, force pushes, sudo) for you to approve. It is not a guarantee: use auto-accept only for a task you trust.
+    </div>
+
+    <p>When auto-accept is turned on from Coral Hub:</p>
+    <ul>
+        <li><strong>Local Opt-In Required</strong>: Turning auto-accept on requires Launch mode in Coral Hub <em>and</em> the local switch <code>"Coral Hub can turn on auto-accept"</code> enabled in Coral's local Settings. Coral Hub cannot enable auto-accept if the local switch is turned off.</li>
+        <li><strong>Scope Limit</strong>: Auto-accept answers only prompts that ask to approve a single tool call. It never answers questions or plan approvals.</li>
+        <li><strong>Time-Limited</strong>: Auto-accept is always bounded by a timer (1 hour default, at most 8 hours). When the timer expires, the agent returns to manual confirmation.</li>
+        <li><strong>Automatic Termination</strong>: Lowering the machine's access below Launch in Coral Hub makes Coral Hub tell the machine to stop it; if the machine is offline, it is stopped when it reconnects.</li>
+    </ul>
+
+    <h2>4. Run Your Own Hub: The Self-Hosted Alternative</h2>
+    <p>Coral Hub is our hosted service at <code>app.coralhub.dev</code>. For people who want to run the dashboard on their own machines or tailnet, Coral also provides a self-hosted option: <strong>Run your own hub</strong>.</p>
+
+    <p>Starting a self-hosted hub requires just one command:</p>
+    <pre><code>$ coral --hub</code></pre>
+
+    <p>One command (<code>coral --hub</code>) runs it on your own machine. Keep it on a trusted network, a VPN or tailnet, or use an encrypted tunnel, since it serves plain HTTP. What Coral Hub does and how it handles your content does not apply to a hub you run yourself.</p>
+
+    <h2>Closed Beta &amp; Requesting Access</h2>
+    <p>Coral Hub is in closed beta. Request access and tell us which machines you want to connect.</p>
+
+    <div class="cta-box">
+        <h3>Request Coral Hub Beta Access</h3>
+        <p>Tell us how you use Coral and which machines you want to connect.</p>
+        <a href="mailto:hello@subgentic.ai?subject=Coral%20Hub%20beta%20access" class="btn">Request beta access</a>
+        <p class="hub-note">or write directly to <a href="mailto:hello@subgentic.ai">hello@subgentic.ai</a> &middot; <a href="https://app.coralhub.dev">Already have access? Sign in to Coral Hub</a></p>
+    </div>
+</article>
+
+<footer>&copy; 2026 Subgentic.ai &middot; <a href="/hub.html" style="color:var(--text-muted);">Coral Hub</a> &middot; <a href="/run-your-own-hub.html" style="color:var(--text-muted);">Run your own hub</a> &middot; <a href="/hub-privacy.html" style="color:var(--text-muted);">Hub Privacy</a></footer>
+<script src="/site-nav.js" defer></script>
+</body>
+</html>

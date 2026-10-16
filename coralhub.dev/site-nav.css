@@ -1,0 +1,80 @@
+/* Shared site navigation (coralhub.dev): Products / Resources / Support menus, the contextual action, the phone menu and the in-page strip. */
+.snav { --bg-card: #161b22; --border: #21262d; --border-light: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e; --text-muted: #6e7681; --accent: #58a6ff; --accent-dim: #1f6feb; font-family: var(--font-sans, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif); line-height: 1.4; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 14, 20, 0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.snav-inner { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 24px; min-height: 56px; }
+.snav-logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: var(--text-primary); text-decoration: none; min-height: 44px; }
+.snav-logo:hover { text-decoration: none; }
+.snav-logo svg { width: 28px; height: 28px; flex: none; }
+.snav-logo small { display: block; font-size: 11px; font-weight: 400; color: var(--text-muted); line-height: 1; }
+.snav-menu { list-style: none; display: flex; align-items: center; gap: 4px; margin: 0 auto 0 8px; padding: 0; }
+.snav-menu > li { position: relative; }
+.snav-menu a, .snav-menu button.snav-top { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; background: none; border: 0; border-radius: 6px; font: inherit; font-size: 14px; font-weight: 500; color: var(--text-secondary); cursor: pointer; text-decoration: none; }
+.snav-menu a:hover, .snav-menu button.snav-top:hover { color: var(--text-primary); background: rgba(255,255,255,.05); text-decoration: none; }
+.snav-menu [aria-current="page"], .snav-menu .is-current > button.snav-top { color: var(--text-primary); }
+.snav-menu button.snav-top::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+.snav-menu button.snav-top[aria-expanded="true"]::after { transform: rotate(225deg); }
+.snav-sub { list-style: none; margin: 0; padding: 6px; position: absolute; top: calc(100% + 4px); left: 0; min-width: 300px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+.snav-sub[hidden] { display: none; }
+.snav-sub a { display: block; padding: 10px 12px; min-height: 44px; }
+.snav-sub a strong { display: block; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.snav-sub a span { display: block; color: var(--text-secondary); font-size: 12.5px; line-height: 1.4; margin-top: 2px; }
+.snav-sub a[aria-current="page"] { background: rgba(88,166,255,.1); }
+.snav-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: var(--accent-dim); color: #fff !important; border-radius: 6px; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.snav-cta:hover { background: var(--accent); text-decoration: none; }
+.snav-toggle { display: none; min-height: 44px; min-width: 44px; padding: 0 12px; background: none; border: 1px solid var(--border-light); border-radius: 6px; color: var(--text-primary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.snav a:focus-visible, .snav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* breadcrumb and the secondary in-page links */
+.page-head { padding: 72px 24px 0; }
+.page-head-inner { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; font-size: 13px; color: var(--text-muted); }
+.crumbs a { color: var(--text-secondary); display: inline-flex; align-items: center; min-height: 44px; padding-right: 4px; }
+.crumbs [aria-current] { color: var(--text-primary); }
+.page-links { display: flex; flex-wrap: wrap; gap: 0 4px; }
+.page-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; color: var(--text-secondary); font-size: 13px; }
+.page-links a:hover { color: var(--text-primary); }
+.page-head + .hero, .page-head + section { padding-top: 40px; }
+
+/* reset inherited list styles inside navigation */
+.snav ul, .snav li { margin: 0; padding: 0; list-style: none; }
+
+@media (max-width: 860px) {
+    .snav { background: #0a0e14; }
+    .snav-toggle { display: inline-flex; align-items: center; margin-left: auto; }
+    .snav-cta { order: 2; }
+    .snav-inner { flex-wrap: wrap; gap: 0 12px; }
+    .snav-logo { order: 0; }
+    .snav-menu { display: none; order: 4; flex-basis: 100%; flex-direction: column; align-items: stretch; margin: 0; padding: 8px 0 12px; }
+    .snav-menu.is-open {
+        display: flex;
+        max-height: calc(100vh - 56px);
+        max-height: calc(100dvh - 56px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .snav-menu > li { position: static; }
+    .snav-menu a, .snav-menu button.snav-top { width: 100%; justify-content: flex-start; }
+    .snav-menu button.snav-top::after { display: inline-block; margin-left: auto; }
+    .snav-sub { position: static; display: block; min-width: 0; margin: 0 0 4px 12px; padding: 0; border: 0; box-shadow: none; background: none; }
+    .snav-sub[hidden] { display: none !important; }
+    .snav-toggle { order: 3; margin-left: 0; }
+    .snav-cta { margin-left: auto; }
+    .snav-cta + .snav-toggle { margin-left: 0; }
+}
+@media (max-width: 480px) { .snav { padding: 0 12px; } .snav-logo small { display: none; } .snav-cta { padding: 0 12px; } }
+
+/* product cards (family home and the related-product bands) */
+.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 920px; margin: 0 auto; }
+.product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; display: flex; flex-direction: column; text-align: left; }
+.product-card h2, .product-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 4px; color: var(--text-primary); }
+.product-tag { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.product-tag.beta { color: #e3b341; }
+.product-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; flex: 1; }
+.product-card .btn { align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; }
+.product-card .btn-primary { background: var(--accent-dim); color: #fff; }
+
+/* touch targets (>= 44 px) without changing how the page looks: footer links, the back link and plain footer text links */
+.footer-links a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+.footer-copy a { display: inline-flex; align-items: center; min-height: 44px; }
+.hub-note a { display: inline-flex; align-items: center; min-height: 44px; }
+.related a:not(.btn) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+footer > a { display: inline-block; padding: 12px 6px; margin: -12px 0; }
+.back-link { padding: 11px 8px; margin: -11px 0 21px -8px; }
