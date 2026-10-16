@@ -1004,6 +1004,7 @@ details.faq p { padding: 0 18px 16px; font-size: 14px; line-height: 1.6; }
 <h2>Who else sees your data</h2>
 <ul>
 <li><strong>Your email provider</strong> and the <strong>mail service</strong> used to send sign-in links see your address and that a link was sent.</li>
+<li><strong>Website delivery</strong>: the pages of this website (not the hub itself) are delivered through DigitalOcean's App Platform, which serves them through Cloudflare's network. As with any web host, DigitalOcean and Cloudflare see the IP address and browser details sent with each page request.</li>
 <li><strong>GitHub</strong>, if you choose GitHub sign-in, sees that you signed in to this service.</li>
 <li><strong>GitHub (release check):</strong> the hub server itself contacts <code>api.github.com</code> once an hour to learn the newest public Coral release, so it can tell you when your machine is behind. It sends no user data, credentials, account or server information; GitHub sees only the hub's IP address and a <code>coral-hub</code> user agent.</li>
 <li>The <strong>hosting provider</strong>: the hub runs on a single server at a commercial cloud provider, with an encrypted off-site backup copy at the same provider. Traffic and stored data are on their infrastructure. The provider and region are not yet listed here.</li>
